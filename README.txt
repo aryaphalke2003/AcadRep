@@ -39,7 +39,8 @@ View grade
 Add courses
 Generate transcript
 Graduation check
-
+Add Users
+Password Change
 
 
 4. Faculty:
@@ -50,6 +51,7 @@ Deoffer course
 Upload grades of students
 View student grades
 View course catalog
+Password Change
 
 
 5. Student:
@@ -63,6 +65,7 @@ View cg
 View grades
 Register in courses
 Deregister from courses
+Password Change
 
 
 
@@ -113,6 +116,10 @@ viewgradestudentTest
 viewofferfacTest
 viewofferstuTest
 viewruncTest
+addfacTest
+addstuTest
+addadminTest
+changepassTest
 
 Classes made are:
 Main
@@ -140,3 +147,7 @@ viewgradestudent
 viewofferfac
 viewofferstu
 viewrunc
+addfac
+addstu
+addadmin
+changepass
