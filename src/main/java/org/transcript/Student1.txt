@@ -1,0 +1,25 @@
+Transcript of Student1
+
+Your cg is 9.33
+
+You have earned 138 credits
+
+
+Semester 1
+HS204 | B-
+HS205 | C
+HS206 | C-
+
+Semester 2
+HS207 | D
+HS208 | D-
+HS209 | E
+
+Semester 3
+CS201 | A
+HS201 | A
+HS202 | A-
+HS203 | B
+CS202 | A
+
+Semester 4

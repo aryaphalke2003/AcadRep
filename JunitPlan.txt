@@ -1,0 +1,32 @@
+Name: Arya Abhijit Phalke
+Roll: 2020CSB1107
+
+For each class a junit test class has been made.
+So lets say for student class we have various options which take userinput.
+
+So a mock input bytereaderstream has been setup where as per each case we pass a specific input.
+That specific input checks for every if-else-case which occurs.
+So basically case wise inputs have been made.
+
+Some inputs require special start cases where in Semester start has been setup as per requirements.
+This has been achieved by sometimes hardcoding the database before running All tests simultaneously.
+
+In total 72 tests have been created by me where we have 98% accuracy.
+Also total jacoco code coverage is 94% testcase.
+Also intellij code coverage is 97% for optimal testcase.
+
+For function with userinput a input bytestream is passed and finally if successful run occurs then true is returned and checked
+@Test
+void adminfunc2() throws SQLException {
+    admin admin=new admin();
+    ByteArrayInputStream in = new ByteArrayInputStream("2\nCS556 CSE PC 4 4-3-2 CS202\n7\n".getBytes());
+    System.setIn(in);
+    assertTrue(admin.adminfunc());
+}
+
+For function with no input just compare the output with expected output
+@Test
+void regnew() throws SQLException {
+    register re = new register();
+    assertEquals(true,re.reg("1@iitrpr.ac.in","Student1","CS111","PC"));
+}

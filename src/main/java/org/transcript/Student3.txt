@@ -1,0 +1,4 @@
+Transcript of 3@iitrpr.ac.in
+Your cg is 10.0
+coursecode | year | semester | dept | pos | credits | grade
+CS201 | 2022 | 1 | CSE | PC | 3 | A
