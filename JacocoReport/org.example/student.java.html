@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>student.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aimsultimate</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">student.java</span></div><h1>student.java</h1><pre class="source lang-java linenums">package org.example;
+
+import java.io.*;
+import java.sql.*;
+
+<span class="fc" id="L6">public class student extends logincheck {</span>
+    public boolean stufunc(String mail, String stuname, String role) throws SQLException {
+        try {
+<span class="fc" id="L9">            System.out.println(&quot;\nWelcome Student&quot;);</span>
+<span class="fc" id="L10">            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</span>
+            while (true) {
+<span class="fc" id="L12">                System.out.println(&quot;\nPress the number:\n&quot;);</span>
+<span class="fc" id="L13">                System.out.println(&quot;1: For viewing offered courses&quot;);</span>
+<span class="fc" id="L14">                System.out.println(&quot;2: For registering in courses&quot;);</span>
+<span class="fc" id="L15">                System.out.println(&quot;3: For deregistering in courses&quot;);</span>
+<span class="fc" id="L16">                System.out.println(&quot;4: For viewing cg&quot;);</span>
+<span class="fc" id="L17">                System.out.println(&quot;5: For viewing your running courses&quot;);</span>
+<span class="fc" id="L18">                System.out.println(&quot;6: For viewing your completed courses&quot;);</span>
+<span class="fc" id="L19">                System.out.println(&quot;7: For viewing your grades&quot;);</span>
+<span class="fc" id="L20">                System.out.println(&quot;8: Change Password\n&quot;);</span>
+<span class="fc" id="L21">                System.out.println(&quot;9: Log Out&quot;);</span>
+
+<span class="fc" id="L23">                int i = Integer.parseInt(br.readLine());</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">                if (i == 1) {</span>
+<span class="fc" id="L25">                    System.out.println(&quot;Type the coursetype (PC|EC|ES)&quot;);</span>
+<span class="fc" id="L26">                    String inp = br.readLine();</span>
+<span class="fc" id="L27">                    viewofferstu viewofferstu = new viewofferstu();</span>
+<span class="fc" id="L28">                    viewofferstu.view(inp);</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">                } else if (i == 2) {</span>
+<span class="fc" id="L30">                    System.out.println(&quot;\nRegister Courses\n&quot;);</span>
+<span class="fc" id="L31">                    System.out.println(&quot;Type the coursetype (PC|EC|ES)&quot;);</span>
+<span class="fc" id="L32">                    String pos = br.readLine();</span>
+<span class="fc" id="L33">                    System.out.println(&quot;Type the course you want to register:&quot;);</span>
+<span class="fc" id="L34">                    String course = br.readLine();</span>
+<span class="fc" id="L35">                    register re = new register();</span>
+<span class="fc" id="L36">                    re.reg(mail,stuname,course,pos);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">                } else if (i == 3) {</span>
+<span class="fc" id="L38">                    System.out.println(&quot;Type course to dereg:&quot;);</span>
+<span class="fc" id="L39">                    String code = br.readLine();</span>
+<span class="fc" id="L40">                    studereg studereg = new studereg();</span>
+<span class="fc" id="L41">                    studereg.dereg(mail,code);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                } else if (i == 4) {</span>
+<span class="fc" id="L43">                    studentcg studentcg = new studentcg();</span>
+<span class="fc" id="L44">                    System.out.println(studentcg.getcg(stuname, mail));</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">                } else if (i == 5) {</span>
+<span class="fc" id="L46">                    viewrunc viewrunc = new viewrunc();</span>
+<span class="fc" id="L47">                    viewrunc.view(stuname, mail);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                } else if (i == 6) {</span>
+<span class="fc" id="L49">                    viewcompc viewcompc = new viewcompc();</span>
+<span class="fc" id="L50">                    viewcompc.view(stuname, mail);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">                } else if (i == 7) {</span>
+<span class="fc" id="L52">                    viewgradestudent v = new viewgradestudent();</span>
+<span class="fc" id="L53">                    v.view(mail);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">                } else if(i==8)</span>
+                {
+<span class="fc" id="L56">                    System.out.println(&quot;Enter new password: &quot;);</span>
+<span class="fc" id="L57">                    String newpass = br.readLine();</span>
+<span class="fc" id="L58">                    changepass ch = new changepass();</span>
+<span class="fc" id="L59">                    ch.change(mail,newpass);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">                } else if (i == 9) {</span>
+<span class="fc" id="L61">                    break;</span>
+<span class="fc" id="L62">                }else {System.out.println(&quot;Please enter correct number!\n&quot;);}</span>
+<span class="pc" id="L63">            }return true;} catch (IOException e) {e.printStackTrace();return false;}</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

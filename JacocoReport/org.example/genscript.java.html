@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>genscript.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aimsultimate</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">genscript.java</span></div><h1>genscript.java</h1><pre class="source lang-java linenums">package org.example;
+
+import java.io.*;
+import java.sql.*;
+<span class="fc" id="L5">public class genscript extends admin {</span>
+
+    public boolean gen(String stumail,String stuname) throws SQLException, IOException {
+
+<span class="fc" id="L9">            final String DB_URL = &quot;jdbc:postgresql://localhost:5432/aims&quot;;</span>
+<span class="fc" id="L10">            final String USER = &quot;postgres&quot;;</span>
+<span class="fc" id="L11">            final String PASS = &quot;root&quot;;</span>
+
+<span class="fc" id="L13">            Connection cgents = DriverManager.getConnection(DB_URL, USER, PASS);</span>
+<span class="fc" id="L14">            int syear=0;</span>
+<span class="fc" id="L15">            semyear semye = new semyear();</span>
+<span class="fc" id="L16">            int cyear=semye.getyear();</span>
+<span class="fc" id="L17">            int csem=semye.getsem();</span>
+
+<span class="fc" id="L19">            PreparedStatement pp = cgents.prepareStatement(&quot;select startyear from student where email=?&quot;);</span>
+<span class="fc" id="L20">            pp.setString(1,stumail);</span>
+<span class="fc" id="L21">            ResultSet rv = pp.executeQuery();</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">            if(rv.next()){</span>
+<span class="fc" id="L23">                syear=rv.getInt(1);</span>
+            }
+<span class="fc" id="L25">            int yy=syear;</span>
+<span class="fc" id="L26">            int tsems=0;</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">            if (csem==2)</span>
+            {
+<span class="nc" id="L29">                tsems = (cyear-syear)*2 + 1;</span>
+            }
+            else
+            {
+<span class="fc" id="L33">                tsems = (cyear-syear)*2;</span>
+            }
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">            if(tsems&gt;8) {tsems=8;}</span>
+
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">            if(tsems==0){return true;}</span>
+
+<span class="fc" id="L39">            FileWriter mc = new FileWriter(&quot;/home/arya/Desktop/&quot; + stuname + &quot;.txt&quot;);</span>
+<span class="fc" id="L40">            mc.write(&quot;Transcript of &quot; + stuname + &quot;\n\n&quot;);</span>
+<span class="fc" id="L41">            studentcg studentcg = new studentcg();</span>
+<span class="fc" id="L42">            mc.write(&quot;Your cg is &quot; + studentcg.getcg(stuname, stumail)+&quot;\n\n&quot;);</span>
+
+<span class="fc" id="L44">            PreparedStatement tc = cgents.prepareStatement(&quot;select credits from compc where stumail=? and grade!=? and grade!=?&quot;);</span>
+<span class="fc" id="L45">            tc.setString(1,stumail);</span>
+<span class="fc" id="L46">            tc.setString(2,&quot;E&quot;);</span>
+<span class="fc" id="L47">            tc.setString(3,&quot;F&quot;);</span>
+<span class="fc" id="L48">        ResultSet rss = tc.executeQuery();</span>
+<span class="fc" id="L49">        int netcred=0;</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        while(rss.next())</span>
+        {
+<span class="fc" id="L52">            netcred += rss.getInt(1);</span>
+        }
+<span class="fc" id="L54">        tc.close();</span>
+<span class="fc" id="L55">        rss.close();</span>
+
+<span class="fc" id="L57">        mc.write(&quot;You have earned &quot; + netcred +&quot; credits\n\n&quot;);</span>
+<span class="fc" id="L58">        System.out.println(tsems);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            for(int i=1;i&lt;=tsems;i++)</span>
+<span class="fc" id="L60">            {PreparedStatement ps = cgents.prepareStatement(&quot;select coursecode,grade from compc where stumail=? and year=? and semester=?&quot;);</span>
+<span class="fc" id="L61">                ps.setString(1, stumail);</span>
+<span class="fc" id="L62">                ps.setInt(2,yy);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">                    if(i%2==1) {ps.setInt(3, 1);}</span>
+<span class="fc" id="L64">                    else{ps.setInt(3,2);}</span>
+<span class="fc" id="L65">                    ResultSet rs = ps.executeQuery();</span>
+<span class="fc" id="L66">                    mc.write(&quot;\nSemester &quot; + String.valueOf(i) + &quot;\n&quot;);</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                    while (rs.next()) {</span>
+<span class="fc" id="L68">                        String op = rs.getString(1) + &quot; | &quot; + rs.getString(2) + &quot;\n&quot;;</span>
+<span class="fc" id="L69">                        mc.write(op);}</span>
+<span class="fc" id="L70">                ps.close();</span>
+<span class="fc" id="L71">                    rs.close();</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                    if(i%2==0){yy++;}</span>
+            }
+
+<span class="fc" id="L75">            mc.close();</span>
+<span class="fc" id="L76">            return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

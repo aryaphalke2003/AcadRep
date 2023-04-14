@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>offercourses.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aimsultimate</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">offercourses.java</span></div><h1>offercourses.java</h1><pre class="source lang-java linenums">package org.example;
+
+import java.io.*;
+import java.sql.*;
+
+<span class="fc" id="L6">public class offercourses extends deregoff {</span>
+    public boolean offer(String mail, String facname,String line) throws SQLException {
+
+<span class="fc" id="L9">        final String DB_URL = &quot;jdbc:postgresql://localhost:5432/aims&quot;;</span>
+<span class="fc" id="L10">        final String USER = &quot;postgres&quot;;</span>
+<span class="fc" id="L11">        final String PASS = &quot;root&quot;;</span>
+<span class="fc" id="L12">        Connection coffer = DriverManager.getConnection(DB_URL, USER, PASS);</span>
+<span class="fc" id="L13">        String[] arr = line.split(&quot;[ ]+&quot;);</span>
+<span class="fc" id="L14">        String dept = &quot;&quot;;</span>
+<span class="fc" id="L15">        String pos = &quot;&quot;;</span>
+
+<span class="fc" id="L17">        PreparedStatement ct = coffer</span>
+<span class="fc" id="L18">                .prepareStatement(&quot;select dept,pos from coursecatalog  where coursecode=?&quot;);</span>
+<span class="fc" id="L19">        ct.setString(1, arr[0]);</span>
+<span class="fc" id="L20">        ResultSet rs = ct.executeQuery();</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (rs.next()) {</span>
+<span class="fc" id="L22">            dept = rs.getString(1);</span>
+<span class="fc" id="L23">            pos = rs.getString(2);</span>
+        }
+        else{
+<span class="fc" id="L26">            return true;</span>
+        }
+<span class="fc" id="L28">        rs.close();</span>
+<span class="fc" id="L29">        ct.close();</span>
+
+<span class="fc" id="L31">        semyear semyear = new semyear();</span>
+<span class="fc" id="L32">        int curryear = semyear.getyear();</span>
+<span class="fc" id="L33">        int currsem = semyear.getsem();</span>
+
+<span class="fc" id="L35">        PreparedStatement cc = coffer.prepareStatement(&quot;select * from offeredc where facultyname=? and coursecode=? and semester=? and year=?&quot;);</span>
+<span class="fc" id="L36">        cc.setString(1,facname);</span>
+<span class="fc" id="L37">        cc.setString(2,arr[0]);</span>
+<span class="fc" id="L38">        cc.setInt(3,currsem);</span>
+<span class="fc" id="L39">        cc.setInt(4,curryear);</span>
+<span class="fc" id="L40">        ResultSet vv= cc.executeQuery();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if(vv.next()){</span>
+<span class="fc" id="L42">            System.out.println(&quot;Already offered this sem&quot;);</span>
+<span class="fc" id="L43">            return true;</span>
+        }
+
+<span class="fc" id="L46">        PreparedStatement cStmt = coffer.prepareStatement(</span>
+                &quot;INSERT INTO offeredc (coursecode,dept,pos,facultyname,year,semester,cgcr) VALUES (?, ?, ?, ?,?, ?, ?);&quot;);
+<span class="fc" id="L48">        cStmt.setString(1, arr[0]);</span>
+<span class="fc" id="L49">        cStmt.setString(2, dept);</span>
+<span class="fc" id="L50">        cStmt.setString(3, pos);</span>
+<span class="fc" id="L51">        cStmt.setString(4, facname);</span>
+<span class="fc" id="L52">        cStmt.setInt(5, curryear);</span>
+<span class="fc" id="L53">        cStmt.setInt(6, currsem);</span>
+<span class="fc" id="L54">        cStmt.setFloat(7, Float.parseFloat(arr[1]));</span>
+<span class="fc" id="L55">        cStmt.execute();</span>
+<span class="fc" id="L56">        cStmt.close();</span>
+<span class="fc" id="L57">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

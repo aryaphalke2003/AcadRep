@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>viewofferstu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aimsultimate</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">viewofferstu.java</span></div><h1>viewofferstu.java</h1><pre class="source lang-java linenums">package org.example;
+
+import java.io.IOException;
+import java.sql.*;
+
+<span class="fc" id="L6">public class viewofferstu extends student {</span>
+    public boolean view(String in) throws SQLException, IOException {
+
+<span class="fc" id="L9">        final String DB_URL = &quot;jdbc:postgresql://localhost:5432/aims&quot;;</span>
+<span class="fc" id="L10">        final String USER = &quot;postgres&quot;;</span>
+<span class="fc" id="L11">        final String PASS = &quot;root&quot;;</span>
+
+<span class="fc" id="L13">        Connection stuv = DriverManager.getConnection(DB_URL, USER, PASS);</span>
+
+<span class="fc" id="L15">        PreparedStatement cs = stuv.prepareStatement(&quot;select * from offeredc where year=? and semester=? and pos=?&quot;);</span>
+<span class="fc" id="L16">        semyear semyear = new semyear();</span>
+<span class="fc" id="L17">        int yy = semyear.getyear();</span>
+<span class="fc" id="L18">        int ss = semyear.getsem();</span>
+<span class="fc" id="L19">        System.out.println(yy);</span>
+<span class="fc" id="L20">        System.out.println(ss);</span>
+
+<span class="fc" id="L22">        cs.setInt(1, yy);</span>
+<span class="fc" id="L23">        cs.setInt(2, ss);</span>
+<span class="fc" id="L24">        cs.setString(3, in);</span>
+<span class="fc" id="L25">        ResultSet rs = cs.executeQuery();</span>
+<span class="fc" id="L26">        System.out.println(&quot;\n&quot;);</span>
+<span class="fc" id="L27">        System.out.println(&quot; coursecode | dept | pos | facultyname | year | semester | cgcr &quot;);</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L29">            System.out.println(rs.getString(1) + &quot;      | &quot; + rs.getString(2) + &quot;  | &quot; + rs.getString(3) + &quot;  | &quot; + rs.getString(4) + &quot;          | &quot; + rs.getString(5) + &quot; |        &quot; + rs.getString(6) + &quot; |    &quot; + rs.getString(7));</span>
+        }
+<span class="fc" id="L31">        cs.close();rs.close();stuv.close();return true;}}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

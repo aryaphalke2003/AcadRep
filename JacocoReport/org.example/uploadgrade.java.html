@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>uploadgrade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aimsultimate</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">uploadgrade.java</span></div><h1>uploadgrade.java</h1><pre class="source lang-java linenums">package org.example;
+import java.io.*;
+import java.sql.*;
+<span class="fc" id="L4">public class uploadgrade extends faculty {</span>
+    public  boolean upload(String facname, String code) throws SQLException {
+
+<span class="fc" id="L7">            final String DB_URL = &quot;jdbc:postgresql://localhost:5432/aims&quot;;</span>
+<span class="fc" id="L8">            final String USER = &quot;postgres&quot;;</span>
+<span class="fc" id="L9">            final String PASS = &quot;root&quot;;</span>
+
+<span class="fc" id="L11">            System.out.println(&quot;\nProvide coursecode.csv file&quot;);</span>
+
+<span class="fc" id="L13">            Connection du = DriverManager.getConnection(DB_URL, USER, PASS);</span>
+
+<span class="fc" id="L15">            semyear semyear = new semyear();</span>
+<span class="fc" id="L16">            int csem = semyear.getsem();</span>
+<span class="fc" id="L17">            int cyear = semyear.getyear();</span>
+
+<span class="fc" id="L19">            PreparedStatement cd = du.prepareStatement(&quot;select dept,pos ,credits from coursecatalog where coursecode=?&quot;);</span>
+<span class="fc" id="L20">            cd.setString(1, code);</span>
+<span class="fc" id="L21">            ResultSet rr = cd.executeQuery();</span>
+<span class="fc" id="L22">            String dept = &quot;&quot;;</span>
+<span class="fc" id="L23">            String pos = &quot;&quot;;</span>
+<span class="fc" id="L24">            int cred = 0;</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">            if (rr.next()) {</span>
+<span class="fc" id="L26">                dept = rr.getString(1);</span>
+<span class="fc" id="L27">                pos = rr.getString(2);</span>
+<span class="fc" id="L28">                cred = rr.getInt(3);</span>
+            }
+<span class="fc" id="L30">            cd.close();</span>
+<span class="fc" id="L31">            rr.close();</span>
+
+<span class="fc" id="L33">            String query = &quot;create temporary table t(mail varchar, name varchar, grade varchar);copy t (mail , name , grade ) from '/home/arya/Desktop/csv/&quot; + code + &quot;.csv' DELIMITER ',' CSV HEADER;&quot;;</span>
+
+<span class="fc" id="L35">            PreparedStatement cc = du.prepareStatement(query);</span>
+<span class="fc" id="L36">            cc.execute();</span>
+<span class="fc" id="L37">            cc.close();</span>
+<span class="fc" id="L38">            PreparedStatement cStmt = du.prepareStatement(&quot;select * from t&quot;);</span>
+<span class="fc" id="L39">            ResultSet rs = cStmt.executeQuery();</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L42">                PreparedStatement ps = du.prepareStatement(&quot;insert into  compc( coursecode,stumail,stuname,facultyname,year,semester,dept,pos,credits,grade)values (?,?,?,?,?,?,?,?,?,?)&quot;);</span>
+<span class="fc" id="L43">                ps.setString(1, code);</span>
+<span class="fc" id="L44">                ps.setString(2, rs.getString(1));</span>
+<span class="fc" id="L45">                ps.setString(3, rs.getString(2));</span>
+<span class="fc" id="L46">                ps.setString(4, facname);</span>
+<span class="fc" id="L47">                ps.setInt(5, cyear);</span>
+<span class="fc" id="L48">                ps.setInt(6, csem);</span>
+<span class="fc" id="L49">                ps.setString(7, dept);</span>
+<span class="fc" id="L50">                ps.setString(8, pos);</span>
+<span class="fc" id="L51">                ps.setInt(9, cred);</span>
+<span class="fc" id="L52">                ps.setString(10, rs.getString(3));</span>
+<span class="fc" id="L53">                ps.execute();</span>
+<span class="fc" id="L54">                ps.close();</span>
+
+<span class="fc" id="L56">            }</span>
+<span class="fc" id="L57">            PreparedStatement ccc = du.prepareStatement(&quot;drop table t&quot;);</span>
+<span class="fc" id="L58">            ccc.execute();</span>
+<span class="fc" id="L59">            ccc.close();</span>
+
+<span class="fc" id="L61">            PreparedStatement cr = du.prepareStatement(&quot;delete from runc where coursecode=?&quot;);</span>
+<span class="fc" id="L62">            cr.setString(1, code);</span>
+<span class="fc" id="L63">            cr.execute();</span>
+<span class="fc" id="L64">            cr.close();</span>
+
+<span class="fc" id="L66">            du.close();</span>
+<span class="fc" id="L67">            return true;</span>
+
+
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
