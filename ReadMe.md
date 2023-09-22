@@ -1,9 +1,12 @@
 # AcadRep
 
+
 **Name:** Arya Abhijit Phalke  
-**Roll:** 2020CSB1107
+**Roll:** 2020csb1107
+
 
 ## Running the Program
+
 
 To run the main file, follow these steps:
 
@@ -17,7 +20,9 @@ To run the main file, follow these steps:
     java Main
     ```
 
+
 ## Code Structure
+
 
 The code is organized into the following components:
 
@@ -45,7 +50,9 @@ The code is organized into the following components:
    - Outlines the Gradle tasks for building the project and generating Jacoco test reports.
    - Lists JUnit tests for each class.
 
+
 ## Tables in the Database
+
 
 - `auth`
 - `compc`
@@ -57,7 +64,18 @@ The code is organized into the following components:
 - `student`
 
 Database Connection Details:
+
 ```java
 final String DB_URL = "jdbc:postgresql://localhost:5432/aims";
 final String USER = "postgres";
 final String PASS = "root";
+```
+
+Gradle Jacoco Report Build:
+
+```java
+./gradlew tasks
+./gradlew clean build
+./gradlew jacocoTestReport
+```
+
