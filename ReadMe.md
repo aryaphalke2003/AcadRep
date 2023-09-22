@@ -1,155 +1,63 @@
 # AcadRep
 
-Name: Arya Abhijit Phalke
-Roll: 2020CSB1107
+**Name:** Arya Abhijit Phalke  
+**Roll:** 2020CSB1107
 
-For running main file just do:
+## Running the Program
 
-javac Main.java
-java Main
+To run the main file, follow these steps:
 
-The only runnable file is Main following which all files are subsequently run using userinput.
+1. Compile `Main.java`:
+    ```
+    javac Main.java
+    ```
 
-The structure of code is as:
+2. Execute the program:
+    ```
+    java Main
+    ```
 
+## Code Structure
 
-1. Main:
+The code is organized into the following components:
 
-                   -> student
-Main -> logincheck -> admin
-                   -> faculty
+1. **Main**:
+   - `Main` -> `logincheck` -> `admin` or `faculty` or `student`
+   - Acts as the login page, taking user email and password as input, authorizing users, and directing them to their respective interfaces.
 
-Its the login page which takes useremail and password as input. 
-Passes this to logincheck function which authorizes the user by checking against auth table in database.
-Once authorized it sends user to respective interface.
+2. **Logincheck**:
+   - Compares the username and password with those in the database.
+   - Provides error messages for "User not registered" or "Wrong password."
 
+3. **Admin**:
+   - Offers various options to users based on input, such as setting the semester, viewing courses, adding courses, and more.
 
+4. **Faculty**:
+   - Similar to admin, offers various functions including offering courses to students, uploading grades, and managing the course catalog.
 
-2. Logincheck:
+5. **Student**:
+   - Provides options for viewing offered courses, completed courses, GPA, grades, and registering/deregistering from courses.
 
-It compares username and password with those present in database.
-Also its tells "User not registered" and "Wrong password".
+6. **Database**:
+   - Lists the tables in the database used in the project and includes the database connection details.
 
+7. **Gradle Jacoco Report Build**:
+   - Outlines the Gradle tasks for building the project and generating Jacoco test reports.
+   - Lists JUnit tests for each class.
 
+## Tables in the Database
 
-3. Admin:
+- `auth`
+- `compc`
+- `coursecatalog`
+- `faculty`
+- `offeredc`
+- `runc`
+- `sems`
+- `student`
 
-It has various options displayed and based on user input it sends user to various functions.
-Set Semester
-View all courses
-View grade
-Add courses
-Generate transcript
-Graduation check
-Add Users
-Password Change
-
-
-4. Faculty:
-
-Similar to admin various functions are called as per there user input.
-Offer course to students
-Deoffer course
-Upload grades of students
-View student grades
-View course catalog
-Password Change
-
-
-5. Student:
-
-It has various options displayed and it takes user input for the same.
-Then as per userinput it calls those functions.
-View offered courses this sem
-View running courses this sem
-View completed courses this sem
-View cg
-View grades
-Register in courses
-Deregister from courses
-Password Change
-
-
-
-6. Database 
-
-Following are my tables:
-
-public | auth          | table | postgres
-public | compc         | table | postgres
-public | coursecatalog | table | postgres
-public | faculty       | table | postgres
-public | offeredc      | table | postgres
-public | runc          | table | postgres
-public | sems          | table | postgres
-public | student       | table | postgres
-
-
+Database Connection Details:
+```java
 final String DB_URL = "jdbc:postgresql://localhost:5432/aims";
 final String USER = "postgres";
 final String PASS = "root";
-
-
-
-7. Gradle Jacoco Report Build
-
-./gradlew tasks
-./gradlew clean build
-./gradlew jacocoTestReport
-
-Junit Tests have been made for each class:
-coureaddTest
-credlimitTest
-deregoffTest
-genscriptTest
-gradcheckTest
-logincheckTest
-offercoursesTest
-registerTest
-semsetTest
-studentcgTest
-studeregTest
-uploadgradeTest
-viewcompcTest
-viewcourseTest
-viewgradeadminTest
-viewgradefacultyTest
-viewgradestudentTest
-viewofferfacTest
-viewofferstuTest
-viewruncTest
-addfacTest
-addstuTest
-addadminTest
-changepassTest
-
-Classes made are:
-Main
-admin
-faculty
-student
-logincheck
-coureadd
-credlimit
-deregoff
-genscript
-gradcheck
-logincheck
-offercourses
-register
-semset
-studentcg
-studereg
-uploadgrade
-viewcompc
-viewcourse
-viewgradeadmin
-viewgradefaculty
-viewgradestudent
-viewofferfac
-viewofferstu
-viewrunc
-addfac
-addstu
-addadmin
-changepass
