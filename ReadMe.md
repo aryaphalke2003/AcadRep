@@ -8,7 +8,7 @@
 ## Running the Program
 
 
-To run the main file, follow these steps:
+To run the main file, go to `src`->`main`->`java`->`org`->`example` & follow these steps:
 
 1. Compile `Main.java`:
     ```
